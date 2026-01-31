@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine’s Stickman Animated Story 💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+    perspective: 1000px;
+}
+
+/* Story box */
+.story-box {
+    position: relative;
+    z-index: 10;
+    background: white;
+    padding: 40px 50px;
+    border-radius: 25px;
+    width: 600px; /* Changed max-width to width to keep size stable */
+    height: 200px; /* Fixed height to prevent box from jumping */
+    display: flex; /* Flex to center text vertically */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: pop 1s ease, zoomIn 0.5s ease forwards;
+}
+
+@keyframes pop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(1) rotateY(-5deg); }
+    to { transform: scale(1.02) rotateY(0deg); }
+}
+
+#story {
+    font-size: 1.4rem; /* Slightly larger text for single lines */
+    line-height: 1.5em;
+    transition: opacity 0.5s ease; /* Smooth fade effect */
+    width: 100%;
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    font-size: 2rem;
+    animation: float linear infinite;
+}
+
+@keyframes float {
+    from { transform: translateY(100vh) scale(0.8); opacity: 1; }
+    to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+
+/* Line animation effects */
+.glow { animation: glow 1.5s ease; }
+@keyframes glow { 0% { text-shadow: 0 0 0 rgba(255,105,135,0); } 50% { text-shadow: 0 0 25px rgba(255,105,135,0.8); } 100% { text-shadow: 0 0 0 rgba(255,105,135,0); } }
+
+.smile { animation: smilePop 1.2s ease; }
+@keyframes smilePop { 0% { transform: scale(0.8); opacity: 0; } 60% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); } }
+
+.heart-burst { animation: heartBurst 1.5s ease; }
+@keyframes heartBurst { 0% { transform: scale(0.9); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+
+.rose { animation: roseFade 2s ease; }
+@keyframes roseFade { from { opacity: 0; letter-spacing: 4px; transform: scale(0.9); } to { opacity: 1; letter-spacing: normal; transform: scale(1); } }
+
+/* Stickman styles */
+.stickman {
+    position: absolute;
+    bottom: 50px;
+    width: 60px;
+    height: 120px;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.head {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: black;
+}
+
+.body {
+    width: 3px;
+    height: 40px;
+    background: black;
+    margin: 0;
+}
+
+.arm, .leg {
+    width: 3px;
+    height: 30px;
+    background: black;
+    transform-origin: top;
+}
+
+.arm-left { transform: rotate(-45deg); position: absolute; top: 15px; left: -10px; }
+.arm-right { transform: rotate(45deg); position: absolute; top: 15px; left: 10px; }
+.leg-left { transform: rotate(-20deg); position: absolute; top: 40px; left: -5px; }
+.leg-right { transform: rotate(20deg); position: absolute; top: 40px; left: 2px; }
+
+/* Walking animation */
+@keyframes walkLeft {
+    0% { transform: translateX(-50vw); }
+    100% { transform: translateX(0); }
+}
+@keyframes walkRight {
+    0% { transform: translateX(50vw); }
+    100% { transform: translateX(0); }
+}
+.stickman-left { animation: walkLeft 5s ease forwards; }
+.stickman-right { animation: walkRight 5s ease forwards; }
+
+/* Heart above stickmen */
+.stick-heart {
+    position: absolute;
+    font-size: 1.5rem;
+    top: -20px;
+    animation: heartBounce 1s ease infinite alternate;
+}
+@keyframes heartBounce {
+    0% { transform: translateY(0) scale(0.8); opacity: 0.7; }
+    100% { transform: translateY(-15px) scale(1.2); opacity: 1; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="stickman stickman-left" style="left: 10%;">
+    <div class="head"></div>
+    <div class="body"></div>
+    <div class="arm arm-left"></div>
+    <div class="arm arm-right"></div>
+    <div class="leg leg-left"></div>
+    <div class="leg leg-right"></div>
+    <div class="stick-heart">💖</div>
+</div>
+
+<div class="stickman stickman-right" style="right: 10%;">
+    <div class="head"></div>
+    <div class="body"></div>
+    <div class="arm arm-left"></div>
+    <div class="arm arm-right"></div>
+    <div class="leg leg-left"></div>
+    <div class="leg leg-right"></div>
+    <div class="stick-heart">💖</div>
+</div>
+
+<div class="story-box">
+    <div id="story"></div>
+</div>
+
+<script>
+// Poetry lines with animations
+const storyLines = [
+    { text: "Sa isang Araw ng mga Puso, may himig ang hangin… 💌", effect: "glow" },
+    { text: "Dalawang pusong minsang napagod, muling nagtagpo…", effect: "glow" },
+    { text: "Sa bawat sandaling magkasama, unti-unting nabuo ang saya…", effect: "glow" },
+    { text: "Sa mga tawa, sa katahimikan, at sa mga munting kwento…", effect: "glow" },
+    { text: "Hanggang sa makita ko ang ngiti mong hindi malilimutan 😊", effect: "smile" },
+    { text: "Isang ngiting kayang pahintuin ang mundo sa isang iglap…", effect: "smile" },
+    { text: "Ngiting payapa, ngiting totoo, ngiting puno ng pag-asa…", effect: "smile" },
+    { text: "At sa bawat araw, lalo kong minahal ang napakaganda mong ngiti 💕", effect: "heart-burst" },
+    { text: "Ngiting nagsasabing, ‘nandito ako’ kahit walang salita…", effect: "heart-burst" },
+    { text: "Doon ko natutunan ang kahulugan ng simpleng pag-ibig…", effect: "heart-burst" },
+    { text: "Pag-ibig na hindi kailangang ipagmalaki sa lahat…", effect: "heart-burst" },
+    { text: "Pag-ibig na sapat na ang kamay na magkahawak…", effect: "heart-burst" },
+    { text: "Pag-ibig na pipiliing manatili sa kabila ng unos…", effect: "heart-burst" },
+    { text: "Pag-ibig na araw-araw kang pipiliin, paulit-ulit… 💖", effect: "heart-burst" },
+    { text: "At kung tatanungin kung bakit ikaw?", effect: "glow" },
+    { text: "Dahil sa ngiti mong naging tahanan ng aking puso…", effect: "smile" },
+    { text: "Maligayang Araw ng mga Puso 🌹", effect: "rose" }
+];
+
+let line = 0;
+let char = 0;
+const speed = 50;
+const storyDiv = document.getElementById("story");
+
+function typeStory() {
+    if (line < storyLines.length) {
+        // Typing Logic
+        if (char < storyLines[line].text.length) {
+            storyDiv.innerHTML += storyLines[line].text.charAt(char);
+            char++;
+            setTimeout(typeStory, speed);
+        } 
+        // Logic when line is finished typing
+        else {
+            storyDiv.className = "";
+            storyDiv.classList.add(storyLines[line].effect);
+            
+            // Wait 5 seconds (5000ms), then clear and move to next
+            setTimeout(() => {
+                // If this is NOT the last line, clear it and proceed
+                if (line < storyLines.length - 1) {
+                    storyDiv.style.opacity = "0"; // Fade out slightly
+                    setTimeout(() => {
+                        storyDiv.innerHTML = ""; // Clear text
+                        storyDiv.style.opacity = "1"; // Fade in
+                        line++;
+                        char = 0;
+                        typeStory(); // Start next line
+                    }, 500); // Small delay for the fade out visual
+                } 
+                // If it IS the last line, keep it (or clear it if you prefer)
+                else {
+                   // Optional: Do nothing so the last message stays.
+                }
+            }, 5000); 
+        }
+    }
+}
+
+typeStory();
+
+// Floating hearts
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}, 500);
+</script>
+
+</body>
+</html>

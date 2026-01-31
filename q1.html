@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Question 1</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(135deg, #1a1a2e, #000);
+        color: #fff;
+        font-family: 'Segoe UI', sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .intro {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        animation: fadeIn 1s ease;
+    }
+
+    .question {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        animation: fadeIn 1.2s ease;
+    }
+
+    .choices {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .choice-btn {
+        padding: 12px 25px;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.2s;
+        background: #00ffcc;
+        color: #000;
+    }
+
+    .choice-btn:hover {
+        transform: scale(1.05);
+        background: #00e6b8;
+    }
+
+    .feedback {
+        margin-top: 20px;
+        font-size: 1.3rem;
+        color: yellow;
+        min-height: 30px;
+    }
+
+    /* Popup styles */
+    .popup {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        flex-direction: column;
+        z-index: 10;
+    }
+
+    .popup.show {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .popup-content {
+        background: #1a1a2e;
+        padding: 40px 60px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        color: #00ffcc;
+        font-size: 1.5rem;
+    }
+
+    .popup button {
+        margin-top: 20px;
+        padding: 10px 25px;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background: #00ffcc;
+        color: #000;
+        transition: background 0.2s, transform 0.2s;
+    }
+
+    .popup button:hover {
+        background: #00e6b8;
+        transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+<body>
+
+<div class="intro">
+    Welcome to the first question! Let's get started. 😊
+</div>
+
+<div class="question">
+    What's your favorite pet?
+</div>
+
+<div class="choices">
+    <button class="choice-btn" data-answer="wrong">Cat</button>
+    <button class="choice-btn" data-answer="correct">Dog</button>
+    <button class="choice-btn" data-answer="wrong">Rabbit</button>
+    <button class="choice-btn" data-answer="wrong">Hamster</button>
+</div>
+
+<div class="feedback" id="feedback"></div>
+
+<!-- Popup -->
+<div class="popup" id="popup">
+    <div class="popup-content">
+        🎉 Your answer is correct! 🎉
+        <button id="continueBtn">Tap to Continue</button>
+    </div>
+</div>
+
+<script>
+    const choices = document.querySelectorAll(".choice-btn");
+    const feedback = document.getElementById("feedback");
+    const popup = document.getElementById("popup");
+    const continueBtn = document.getElementById("continueBtn");
+
+    choices.forEach(choice => {
+        choice.addEventListener("click", () => {
+            if(choice.dataset.answer === "correct") {
+                // Show popup
+                popup.classList.add("show");
+                feedback.textContent = "";
+            } else {
+                feedback.textContent = "❌ Oops! Try again.";
+                feedback.style.color = "#ff5555";
+            }
+        });
+    });
+
+    continueBtn.addEventListener("click", () => {
+        // Hide popup
+        popup.classList.remove("show");
+        // Optionally, redirect to the next question
+        // window.location.href = "question2.html";
+    });
+</script>
+
+</body>
+</html>
