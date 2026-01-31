@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Valentine’s Stickman Animated Story 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Valentine’s Stickman Animated Story 💖</title>
 
 <style>
 body {
@@ -17,21 +17,23 @@ body {
     perspective: 1000px;
 }
 
-/* Story box */
+/* Story box - Made Responsive */
 .story-box {
     position: relative;
     z-index: 10;
     background: white;
-    padding: 40px 50px;
+    padding: 30px;
     border-radius: 25px;
-    width: 600px; /* Changed max-width to width to keep size stable */
-    height: 200px; /* Fixed height to prevent box from jumping */
-    display: flex; /* Flex to center text vertically */
+    width: 90%; /* Responsive width */
+    max-width: 600px; /* Limits size on desktop */
+    min-height: 150px; /* Adjusted for mobile */
+    display: flex; 
     justify-content: center;
     align-items: center;
     text-align: center;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     animation: pop 1s ease, zoomIn 0.5s ease forwards;
+    box-sizing: border-box;
 }
 
 @keyframes pop {
@@ -45,9 +47,9 @@ body {
 }
 
 #story {
-    font-size: 1.4rem; /* Slightly larger text for single lines */
+    font-size: 1.4rem; 
     line-height: 1.5em;
-    transition: opacity 0.5s ease; /* Smooth fade effect */
+    transition: opacity 0.5s ease;
     width: 100%;
 }
 
@@ -56,6 +58,7 @@ body {
     position: absolute;
     font-size: 2rem;
     animation: float linear infinite;
+    pointer-events: none; /* Prevents hearts from blocking clicks */
 }
 
 @keyframes float {
@@ -79,7 +82,7 @@ body {
 /* Stickman styles */
 .stickman {
     position: absolute;
-    bottom: 50px;
+    bottom: 30px; /* Lowered for mobile */
     width: 60px;
     height: 120px;
     z-index: 5;
@@ -114,30 +117,46 @@ body {
 .leg-left { transform: rotate(-20deg); position: absolute; top: 40px; left: -5px; }
 .leg-right { transform: rotate(20deg); position: absolute; top: 40px; left: 2px; }
 
-/* Walking animation */
+/* Walking animations adjusted for mobile */
 @keyframes walkLeft {
-    0% { transform: translateX(-50vw); }
+    0% { transform: translateX(-60vw); }
     100% { transform: translateX(0); }
 }
 @keyframes walkRight {
-    0% { transform: translateX(50vw); }
+    0% { transform: translateX(60vw); }
     100% { transform: translateX(0); }
 }
 .stickman-left { animation: walkLeft 5s ease forwards; }
 .stickman-right { animation: walkRight 5s ease forwards; }
 
-/* Heart above stickmen */
 .stick-heart {
     position: absolute;
     font-size: 1.5rem;
     top: -20px;
     animation: heartBounce 1s ease infinite alternate;
 }
+
 @keyframes heartBounce {
     0% { transform: translateY(0) scale(0.8); opacity: 0.7; }
     100% { transform: translateY(-15px) scale(1.2); opacity: 1; }
 }
 
+/* --- RESPONSIVE MEDIA QUERY --- */
+@media (max-width: 600px) {
+    #story {
+        font-size: 1.1rem; /* Smaller font for small screens */
+    }
+    .story-box {
+        padding: 20px;
+        min-height: 180px; /* Taller to fit wrapped text */
+    }
+    .stickman {
+        bottom: 15px;
+        transform: scale(0.8); /* Shrink stickmen slightly */
+    }
+    .stickman-left { left: 5% !important; }
+    .stickman-right { right: 5% !important; }
+}
 </style>
 </head>
 <body>
@@ -167,7 +186,6 @@ body {
 </div>
 
 <script>
-// Poetry lines with animations
 const storyLines = [
     { text: "Sa isang Araw ng mga Puso, may himig ang hangin… 💌", effect: "glow" },
     { text: "Dalawang pusong minsang napagod, muling nagtagpo…", effect: "glow" },
@@ -195,33 +213,25 @@ const storyDiv = document.getElementById("story");
 
 function typeStory() {
     if (line < storyLines.length) {
-        // Typing Logic
         if (char < storyLines[line].text.length) {
             storyDiv.innerHTML += storyLines[line].text.charAt(char);
             char++;
             setTimeout(typeStory, speed);
         } 
-        // Logic when line is finished typing
         else {
             storyDiv.className = "";
             storyDiv.classList.add(storyLines[line].effect);
             
-            // Wait 5 seconds (5000ms), then clear and move to next
             setTimeout(() => {
-                // If this is NOT the last line, clear it and proceed
                 if (line < storyLines.length - 1) {
-                    storyDiv.style.opacity = "0"; // Fade out slightly
+                    storyDiv.style.opacity = "0";
                     setTimeout(() => {
-                        storyDiv.innerHTML = ""; // Clear text
-                        storyDiv.style.opacity = "1"; // Fade in
+                        storyDiv.innerHTML = "";
+                        storyDiv.style.opacity = "1";
                         line++;
                         char = 0;
-                        typeStory(); // Start next line
-                    }, 500); // Small delay for the fade out visual
-                } 
-                // If it IS the last line, keep it (or clear it if you prefer)
-                else {
-                   // Optional: Do nothing so the last message stays.
+                        typeStory();
+                    }, 500);
                 }
             }, 5000); 
         }
@@ -230,7 +240,6 @@ function typeStory() {
 
 typeStory();
 
-// Floating hearts
 setInterval(() => {
     const heart = document.createElement("div");
     heart.className = "heart";
