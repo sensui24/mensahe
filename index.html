@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 <title>Unlock the Secret 🔐</title>
 
 <style>
@@ -12,6 +13,11 @@ body {
     font-family: 'Segoe UI', sans-serif;
     color: #fff;
     overflow: hidden;
+    touch-action: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .title {
@@ -22,6 +28,8 @@ body {
     font-size: 1.3rem;
     z-index: 10;
     padding: 0 20px;
+    box-sizing: border-box;
+    transition: all 0.5s ease;
 }
 
 .message {
@@ -31,6 +39,7 @@ body {
     text-align: center;
     font-size: 1.1rem;
     z-index: 10;
+    transition: all 0.5s ease;
 }
 
 /* PADLOCK */
@@ -68,7 +77,6 @@ body {
     transform: scale(1.3) rotate(10deg);
 }
 
-/* KEY INSERT ANIMATION */
 .insert-key {
     transition: all 1.8s ease;
     z-index: 15;
@@ -88,6 +96,7 @@ body {
     z-index: 20;
     animation: fadeIn 1s ease;
     flex-direction: column;
+    padding: 20px;
 }
 
 @keyframes fadeIn {
@@ -98,6 +107,9 @@ body {
 .buttons {
     margin-top: 30px;
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .buttons button {
@@ -110,11 +122,6 @@ body {
     border-radius: 10px;
     cursor: pointer;
     transition: transform 0.2s;
-}
-
-.buttons button:hover {
-    transform: scale(1.1);
-    background: #00e6b8;
 }
 
 /* LOADING PROGRESS BAR */
@@ -149,7 +156,6 @@ body {
     transition: width 0.1s linear;
 }
 
-/* Animated running dog */
 .dog-icon {
     position: absolute;
     top: -15px;
@@ -159,11 +165,42 @@ body {
 }
 
 @keyframes runMotion {
-    0% { transform: translateY(0); }
-    25% { transform: translateY(-5px); }
-    50% { transform: translateY(0); }
-    75% { transform: translateY(5px); }
-    100% { transform: translateY(0); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* --- REVISED RESPONSIVE STYLES --- */
+@media (max-width: 600px) {
+    .title { 
+        font-size: 1rem; 
+        top: 15%; 
+    }
+    
+    .message { 
+        font-size: 0.9rem; 
+        bottom: 20%; 
+    }
+
+    .lock-container { 
+        font-size: 4rem; 
+    }
+
+    .key { 
+        font-size: 1.8rem; 
+    }
+
+    .secret { 
+        font-size: 1.1rem; 
+    }
+
+    .progress-container { 
+        width: 85%; 
+    }
+}
+
+@media (max-height: 500px) {
+    .title { top: 5px; font-size: 0.9rem; }
+    .message { bottom: 5px; }
 }
 </style>
 </head>
@@ -186,9 +223,8 @@ body {
     </div>
 </div>
 
-<!-- Loading overlay -->
 <div class="loading-overlay" id="loading">
-    <div>Loading...</div>
+    <div>Loading the secret story...</div>
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
         <div class="dog-icon" id="dogIcon">🐕</div>
@@ -196,7 +232,7 @@ body {
 </div>
 
 <script>
-const totalKeys = 10;
+const totalKeys = 12; 
 const correctKey = Math.floor(Math.random() * totalKeys);
 const keys = [];
 const speeds = [];
@@ -214,13 +250,12 @@ for (let i = 0; i < totalKeys; i++) {
     const key = document.createElement("div");
     key.className = "key";
     key.textContent = "🔑";
-
     key.style.left = Math.random() * (window.innerWidth - 50) + "px";
-    key.style.top = Math.random() * (window.innerHeight - 50) + "px";
+    key.style.top = Math.random() * (window.innerHeight - 100) + 50 + "px";
 
     speeds.push({
-        x: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? -1 : 1),
-        y: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? -1 : 1)
+        x: (Math.random() * 1.2 + 0.4) * (Math.random() < 0.5 ? -1 : 1),
+        y: (Math.random() * 1.2 + 0.4) * (Math.random() < 0.5 ? -1 : 1)
     });
 
     key.onclick = () => {
@@ -233,8 +268,17 @@ for (let i = 0; i < totalKeys; i++) {
     keys.push(key);
 }
 
+window.addEventListener('resize', () => {
+    keys.forEach(key => {
+        let x = parseFloat(key.style.left);
+        let y = parseFloat(key.style.top);
+        if (x > window.innerWidth - 50) key.style.left = (window.innerWidth - 50) + "px";
+        if (y > window.innerHeight - 50) key.style.top = (window.innerHeight - 50) + "px";
+    });
+});
+
 function tease() {
-    const messages = ["❌ Wrong key!", "🔒 That key doesn't fit.", "😏 Try another one.", "🗝️ Keep searching...", "🚫 Access denied."];
+    const messages = ["❌ Wrong key!", "🔒 Doesn't fit.", "😏 Try again.", "🗝️ Keep looking!", "🚫 Locked tight."];
     document.getElementById("message").textContent = messages[Math.floor(Math.random() * messages.length)];
 }
 
@@ -259,15 +303,18 @@ function insertKey(key) {
     }, 3600);
 }
 
-// Proceed button triggers dog progress loading (10 seconds)
+// --- REVISION: PROGRESS BAR REDIRECT ---
 proceedBtn.onclick = () => {
     secret.style.display = "none";
     loading.style.display = "flex";
 
     let progress = 0;
-    const intervalTime = 10000 / 100; // 10 seconds total
+    const duration = 5000; // Time in milliseconds (5 seconds)
+    const intervalTime = 50; 
+    const increment = (intervalTime / duration) * 100;
+
     const interval = setInterval(() => {
-        progress += 1;
+        progress += increment;
         if (progress > 100) progress = 100;
 
         progressBar.style.width = progress + "%";
@@ -276,22 +323,26 @@ proceedBtn.onclick = () => {
 
         if (progress >= 100) {
             clearInterval(interval);
-            window.location.href = "second.html";
+            // REPLACE "valentines.html" WITH YOUR ACTUAL TARGET FILENAME
+            window.location.href = "second.html"; 
         }
     }, intervalTime);
 };
 
-// Exit button runs away
 exitBtn.addEventListener("mouseover", moveExitButton);
-exitBtn.addEventListener("click", moveExitButton);
+exitBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault(); 
+    moveExitButton();
+});
+
 function moveExitButton() {
     const btnWidth = exitBtn.offsetWidth;
     const btnHeight = exitBtn.offsetHeight;
-    const maxX = window.innerWidth - btnWidth - 20;
-    const maxY = window.innerHeight - btnHeight - 20;
+    const maxX = window.innerWidth - btnWidth - 40;
+    const maxY = window.innerHeight - btnHeight - 40;
     exitBtn.style.position = "absolute";
-    exitBtn.style.left = Math.random() * maxX + "px";
-    exitBtn.style.top = Math.random() * maxY + "px";
+    exitBtn.style.left = Math.max(20, Math.random() * maxX) + "px";
+    exitBtn.style.top = Math.max(20, Math.random() * maxY) + "px";
 }
 
 function animate() {
@@ -299,14 +350,11 @@ function animate() {
     keys.forEach((key, i) => {
         let x = key.offsetLeft + speeds[i].x;
         let y = key.offsetTop + speeds[i].y;
-
         if (x <= 0 || x + key.offsetWidth >= window.innerWidth) speeds[i].x *= -1;
-        if (y <= 80 || y + key.offsetHeight >= window.innerHeight - 40) speeds[i].y *= -1;
-
+        if (y <= 10 || y + key.offsetHeight >= window.innerHeight - 10) speeds[i].y *= -1;
         key.style.left = x + "px";
         key.style.top = y + "px";
     });
-
     requestAnimationFrame(animate);
 }
 
