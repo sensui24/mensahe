@@ -9,152 +9,62 @@
 body {
     margin: 0;
     height: 100vh;
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    background: linear-gradient(135deg, #32f542, #c1a79f);
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
-    perspective: 1000px;
+    perspective: 1200px;
 }
 
-/* Story box */
-.story-box {
-    position: relative;
-    z-index: 10;
-    background: white;
-    padding: 40px;
-    border-radius: 25px;
-    width: 90%;
-    max-width: 650px;
-    min-height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    animation: pop 1s ease;
-}
+/* 🌸 FLOWER RAIN */
+.flower { position: absolute; top: -10vh; font-size: 2rem; pointer-events: none; z-index: 1; animation: flowerFall linear forwards; opacity: 0.9; filter: blur(0.5px); }
+@keyframes flowerFall { from { transform: translateY(-10vh) rotate(0deg); opacity: 1; } to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
 
-@keyframes pop {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
+/* STORY BOX - Vintage Style */
+.story-box { position: relative; z-index: 10; background: linear-gradient(to bottom, #fdf6e3, #f2e8d5); border: 5px solid #a67c52; border-radius: 20px; width: 90%; max-width: 650px; min-height: 250px; padding: 40px; display: flex; justify-content: center; align-items: center; text-align: center; box-shadow: 0 15px 50px rgba(0,0,0,0.4), inset 0 0 20px rgba(0,0,0,0.05); font-family: 'Georgia', 'Times New Roman', serif; color: #3b2f2f; background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png'); background-size: cover; transform: rotateX(0deg) rotateY(0deg); display: none; animation: popVintage 1s ease forwards; }
+@keyframes popVintage { from { transform: scale(0.8) rotateX(5deg); opacity: 0; } to { transform: scale(1) rotateX(0deg); opacity: 1; } }
+#story { font-size: 1.25rem; line-height: 1.6em; color: #fff; text-shadow: 0 3px 10px rgba(0,0,0,0.5); }
 
-#story {
-    font-size: 1.25rem;
-    line-height: 1.6em;
-    color: #444;
-    transition: opacity 0.5s ease;
-}
+/* HEARTS */
+.heart { position: absolute; font-size: 2rem; animation: float linear infinite; pointer-events: none; z-index: 2; }
+@keyframes float { from { transform: translateY(100vh); opacity: 1; } to { transform: translateY(-10vh); opacity: 0; } }
 
-/* Floating hearts */
-.heart {
-    position: absolute;
-    font-size: 2rem;
-    animation: float linear infinite;
-    pointer-events: none;
-}
-
-@keyframes float {
-    from { transform: translateY(100vh); opacity: 1; }
-    to { transform: translateY(-10vh); opacity: 0; }
-}
-
-/* Effects */
-.glow { animation: glow 1.5s ease; }
-@keyframes glow { 50% { text-shadow: 0 0 15px rgba(255,105,135,0.6); } }
-
-.smile { animation: smilePop 1.2s ease; }
-@keyframes smilePop { 60% { transform: scale(1.05); } }
-
-.heart-burst { animation: heartBurst 1.5s ease; }
-@keyframes heartBurst { 50% { color: #e91e63; } }
-
-.rose { animation: roseFade 2s ease; color: #d81b60; }
-@keyframes roseFade { from { opacity: 0; } to { opacity: 1; } }
-
-/* Stickman (unchanged) */
-.stickman {
-    position: absolute;
-    bottom: 50px;
-    width: 60px;
-    height: 120px;
-}
-
-.head { width: 15px; height: 15px; border-radius: 50%; background: black; }
-.body { width: 3px; height: 40px; background: black; }
-.arm, .leg { width: 3px; height: 30px; background: black; }
-.arm-left { transform: rotate(-45deg); position: absolute; top: 15px; left: -10px; }
-.arm-right { transform: rotate(45deg); position: absolute; top: 15px; left: 10px; }
-.leg-left { transform: rotate(-20deg); position: absolute; top: 40px; left: -5px; }
-.leg-right { transform: rotate(20deg); position: absolute; top: 40px; left: 2px; }
+/* LOADING TEXT */
+#loadingText { position: absolute; z-index: 20; font-size: 2rem; color: #fff; text-align: center; }
 
 /* QUESTION POPUP */
-.question-popup {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 50;
-}
-
-.question-box {
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-    animation: pop 0.6s ease;
-}
-
-.question-box h2 {
-    color: #d81b60;
-    margin-bottom: 20px;
-}
-
-.question-box button {
-    padding: 12px 25px;
-    margin: 10px;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.yes-btn {
-    background: #ff4081;
-    color: white;
-}
-
-.no-btn {
-    background: #ccc;
-}
+.question-popup { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 50; animation: popupFade 0.5s ease; }
+@keyframes popupFade { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+.question-box { background: white; padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%; animation: boxPop 0.5s ease; }
+@keyframes boxPop { 0% { transform: scale(0.5); opacity: 0; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); } }
+.yes-btn { background: #ff4081; color: white; }
+.no-btn { background: #ccc; }
+button { padding: 12px 25px; border: none; border-radius: 10px; cursor: pointer; font-size: 1rem; }
 </style>
+
+<!-- EmailJS SDK -->
+<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("Ehvdu3W8_JrdU1SJC"); // replace with your EmailJS public key
+   })();
+</script>
+
 </head>
 
 <body>
 
-<div class="stickman" style="left:15%;">
-    <div class="head"></div><div class="body"></div>
-    <div class="arm arm-left"></div><div class="arm arm-right"></div>
-    <div class="leg leg-left"></div><div class="leg leg-right"></div>
-</div>
+<!-- LOADING TEXT -->
+<div id="loadingText">Generating story...</div>
 
-<div class="stickman" style="right:15%;">
-    <div class="head"></div><div class="body"></div>
-    <div class="arm arm-left"></div><div class="arm arm-right"></div>
-    <div class="leg leg-left"></div><div class="leg leg-right"></div>
-</div>
-
-<div class="story-box">
+<!-- STORY BOX -->
+<div class="story-box" id="storyBox">
     <div id="story"></div>
 </div>
 
-<!-- QUESTION POPUP -->
+<!-- MAIN POPUP -->
 <div class="question-popup" id="questionPopup">
     <div class="question-box">
         <h2>☕ Can I treat you a cup of coffee?</h2>
@@ -164,101 +74,58 @@ body {
 </div>
 
 <script>
+/* STORY LINES */
 const storyLines = [
     { text: "One guy lived his life through glowing screens and complex codes.", effect: "glow" },
     { text: "Days blurred into nights as he solved problems no one else could see.", effect: "glow" },
-
     { text: "Across town, one girl worked quietly as an office clerk.", effect: "glow" },
     { text: "Her desk was simple, her work steady, her heart full of patience.", effect: "glow" },
-
     { text: "They were two strangers, never imagining their paths would cross.", effect: "glow" },
-    { text: "Living separate lives, guided by different routines.", effect: "glow" },
-
-    { text: "A sudden system crash brought the guy to her office.", effect: "glow" },
-    { text: "What started as a technical problem became a turning point.", effect: "glow" },
-
-    { text: "He noticed a small Bible verse taped to her monitor.", effect: "smile" },
-    { text: "It spoke about faith, hope, and trusting God’s timing.", effect: "smile" },
-
-    { text: "She offered a kind smile.", effect: "smile" },
-    { text: "A simple gesture that made the noisy world feel calm.", effect: "smile" },
-
-    { text: "Over time, technical issues became an excuse to talk.", effect: "heart-burst" },
-    { text: "Short conversations slowly turned into shared laughter.", effect: "heart-burst" },
-    { text: "They learned about each other’s dreams and fears.", effect: "heart-burst" },
-
-    { text: "Faith and purpose connected them deeply.", effect: "heart-burst" },
-    { text: "They realized some meetings are not accidents.", effect: "heart-burst" },
-
-    { text: "The guy found himself looking forward to system errors.", effect: "heart-burst" },
-    { text: "The girl prayed quietly for clarity in her heart.", effect: "heart-burst" },
-
-    { text: "And then, one ordinary day felt different.", effect: "rose" },
-    { text: "With courage and a nervous smile, the guy finally asked…", effect: "rose" }
 ];
-
 
 let line = 0, char = 0;
 const speed = 40;
 const storyDiv = document.getElementById("story");
+const storyBox = document.getElementById("storyBox");
+const loadingText = document.getElementById("loadingText");
 const popup = document.getElementById("questionPopup");
 
+/* LOADING SEQUENCE */
+function startLoadingSequence() {
+    loadingText.innerText = "Generating story...";
+    setTimeout(() => {
+        loadingText.innerText = "Publishing story...";
+        setTimeout(() => {
+            loadingText.innerText = "Story opening...";
+            setTimeout(() => {
+                loadingText.style.display = "none";
+                storyBox.style.display = "flex";
+                typeStory();
+            }, 3000);
+        }, 2000);
+    }, 2000);
+}
+
+/* TYPEWRITER STORY */
 function typeStory() {
     if (line < storyLines.length) {
         if (char < storyLines[line].text.length) {
             storyDiv.innerHTML += storyLines[line].text.charAt(char++);
             setTimeout(typeStory, speed);
         } else {
-            storyDiv.className = storyLines[line].effect;
             setTimeout(() => {
-                storyDiv.style.opacity = "0";
-                setTimeout(() => {
-                    storyDiv.innerHTML = "";
-                    storyDiv.style.opacity = "1";
-                    char = 0;
-                    line++;
-                    typeStory();
-                }, 800);
-            }, 3000);
+                storyDiv.innerHTML = "";
+                char = 0;
+                line++;
+                typeStory();
+            }, 2000);
         }
     } else {
-        // STORY END → SHOW QUESTION
-        setTimeout(() => popup.style.display = "flex", 1000);
+        popup.style.display = "flex";
     }
 }
 
-typeStory();
-
-// Buttons
-document.getElementById("noBtn").onclick = () => {
-    alert("The no button is not applicable please tap the other button to proceed");
-};
-
-document.getElementById("yesBtn").onclick = () => {
-    popup.innerHTML = `
-        <div class="question-box">
-            <h2>💖 Coffee date accepted ☕</h2>
-        </div>
-    `;
-
-    // After 2 seconds, show loading message
-    setTimeout(() => {
-        popup.innerHTML = `
-            <div class="question-box">
-                <h2>⏳ Your response has been recorded…</h2>
-                <p>Please wait</p>
-            </div>
-        `;
-    }, 2000);
-
-    // After total 5 seconds, redirect to Valentine page
-    setTimeout(() => {
-        window.location.href = "third.html";
-    }, 5000);
-};
-
-
-// Floating hearts
+/* 💖 HEARTS */
 setInterval(() => {
     const heart = document.createElement("div");
     heart.className = "heart";
@@ -268,6 +135,76 @@ setInterval(() => {
     document.body.appendChild(heart);
     setTimeout(() => heart.remove(), 6000);
 }, 700);
+
+/* 🌸 FLOWER RAIN */
+const flowers = ["🌸","🌺","🌼","💐"];
+setInterval(() => {
+    const flower = document.createElement("div");
+    flower.className = "flower";
+    flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+    flower.style.left = Math.random() * 100 + "vw";
+    flower.style.animationDuration = (Math.random() * 4 + 6) + "s";
+    document.body.appendChild(flower);
+    setTimeout(() => flower.remove(), 12000);
+}, 500);
+
+/* POPUP BUTTON LOGIC */
+function showPopupMessage(message, duration = 0, returnToChoices = false) {
+    popup.style.display = "flex";
+    popup.innerHTML = `
+        <div class="question-box">
+            <h2>${message}</h2>
+        </div>
+    `;
+    if (duration > 0) {
+        setTimeout(() => {
+            if (returnToChoices) {
+                popup.innerHTML = `
+                    <div class="question-box">
+                        <h2>☕ Can I treat you a cup of coffee?</h2>
+                        <button class="yes-btn" id="yesBtn">Yes</button>
+                        <button class="no-btn" id="noBtn">No</button>
+                    </div>
+                `;
+                attachButtonLogic();
+            } else popup.style.display = "none";
+        }, duration);
+    }
+}
+
+function attachButtonLogic() {
+    document.getElementById("noBtn").onclick = () => {
+        showPopupMessage("❌ No button is under maintenance", 4000, true);
+    };
+
+    document.getElementById("yesBtn").onclick = () => {
+        showPopupMessage("☕ Coffee date settled");
+
+        // SEND EMAIL VIA EMAILJS
+        emailjs.send("service_xak2mf8", "template_p7wfq41", {
+            to_email: "eduardbual18@gmail.com",
+            message: "User accepted your coffee invitation 💖"
+        })
+        .then(() => {
+            // ✅ Notify user email sent
+            showPopupMessage("📧 Email has been sent successfully!", 4000);
+        })
+        .catch((error) => {
+            // ❌ Notify user email failed
+            console.error("Email send failed:", error);
+            showPopupMessage("⚠️ Failed to send email. Please try again!", 4000, true);
+        });
+
+        setTimeout(() => {
+            showPopupMessage("⏳ Response has been recorded", 4000);
+        }, 5000);
+    };
+}
+
+attachButtonLogic();
+
+/* START LOADING SEQUENCE ON PAGE LOAD */
+window.onload = startLoadingSequence;
 </script>
 
 </body>
