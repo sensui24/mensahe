@@ -202,6 +202,25 @@ body {
     .title { top: 5px; font-size: 0.9rem; }
     .message { bottom: 5px; }
 }
+.popup-container {
+    background: rgba(0, 0, 0, 0.85);
+    border: 2px solid #00ffcc;
+    border-radius: 15px;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 90%;
+    box-shadow: 0 0 20px #00ffcc;
+}
+
+.popup-message {
+    font-size: 1.6rem;
+    text-align: center;
+    color: #00ffcc;
+    font-weight: bold;
+}
 </style>
 </head>
 
@@ -216,12 +235,15 @@ body {
 <div class="message" id="message"></div>
 
 <div class="secret" id="secret">
-    🎉 Congrats! You found the right key! 🎉
-    <div class="buttons">
-        <button id="proceedBtn">Proceed</button>
-        <button id="exitBtn">Exit</button>
+    <div class="popup-container">
+        <div class="popup-message">🎉 Congrats! You found the right key! 🎉</div>
+        <div class="buttons">
+            <button id="proceedBtn">Proceed</button>
+            <button id="exitBtn">Exit</button>
+        </div>
     </div>
 </div>
+
 
 <div class="loading-overlay" id="loading">
     <div>Loading the secret story...</div>
@@ -284,7 +306,7 @@ function tease() {
 
 function insertKey(key) {
     unlocked = true;
-    document.getElementById("message").textContent = "🔑 Key inserted… unlocking slowly";
+    document.getElementById("message").textContent = "🗝️ Key inserted… unlocked";
     speeds.forEach(s => { s.x = 0; s.y = 0; });
 
     const lockRect = lock.getBoundingClientRect();
