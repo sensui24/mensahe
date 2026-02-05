@@ -3,13 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-<title>A Divine Connection 💖</title>
+<title>mensahe</title>
 
 <style>
 body {
     margin: 0;
     height: 100vh;
-    background: linear-gradient(135deg, #32f542, #c1a79f);
+    background-image: url("bts2.jpg"); 
+    /* These rules ensure the photo looks good */
+    background-size: cover;      /* Scales image to fill the screen */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keeps background still while elements move */
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,7 +52,7 @@ body {
     100% { transform: translateY(-60vh) scale(1); opacity: 1; }
 }
 
-/* 🌳 TREE */
+/* 🌳 TREE 
 .tree {
     position: absolute;
     bottom: 0;
@@ -71,7 +77,7 @@ body {
     top: -60px;
     left: -20px;
 }
-
+*/
 /* STORY BOX */
 .story-box { position: relative; z-index: 10; background: linear-gradient(to bottom, #fdf6e3, #f2e8d5); border: 5px solid #00ffcc; border-radius: 20px; width: 90%; max-width: 650px; min-height: 250px; padding: 40px; display: flex; justify-content: center; align-items: center; text-align: center; box-shadow: 0 15px 50px rgba(0,0,0,0.4), inset 0 0 20px rgba(0,0,0,0.05); font-family: 'Georgia', 'Times New Roman', serif; color: #3b2f2f; background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png'); background-size: cover; transform: rotateX(0deg) rotateY(0deg); display: none; animation: popVintage 1s ease forwards; }
 @keyframes popVintage { from { transform: scale(0.8) rotateX(5deg); opacity: 0; } to { transform: scale(1) rotateX(0deg); opacity: 1; } }
@@ -133,16 +139,58 @@ button { padding: 12px 25px; border: none; border-radius: 10px; cursor: pointer;
     100% { opacity: 1; }
 }
 
+/* ❤️ HEART DRAWING ANIMATION (BLACKOUT PRANK) */
+#heartContainer {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.heart-svg {
+    width: 220px;
+    height: 200px;
+}
+
+.heart-svg path {
+    fill: none;
+    stroke: red;
+    stroke-width: 3;
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    animation: drawHeart 3s ease forwards;
+}
+
+@keyframes drawHeart {
+    to { stroke-dashoffset: 0; }
+}
+
+#heartText {
+    position: absolute;
+    color: white;
+    font-size: 2rem;
+    font-family: monospace;
+    opacity: 0;
+    animation: fadeInText 1.5s ease forwards;
+    animation-delay: 2s;
+}
+
+@keyframes fadeInText {
+    to { opacity: 1; }
+}
+
+
 </style>
 
 <body>
 
-<!-- TREE -->
+<!-- TREE 
 <div class="tree">
     <div class="tree-trunk"></div>
     <div class="tree-leaves"></div>
 </div>
-
+-->
 <!-- LOADING TEXT -->
 <div id="loadingText">Generating story...</div>
 
@@ -202,11 +250,11 @@ const popup = document.getElementById("questionPopup");
 
 /* LOADING SEQUENCE */
 function startLoadingSequence() {
-    loadingText.innerText = "Generating story...";
+    loadingText.innerText = "Generating the story...";
     setTimeout(() => {
-        loadingText.innerText = "Publishing story...";
+        loadingText.innerText = "Publishing the story...";
         setTimeout(() => {
-            loadingText.innerText = "Story opening...";
+            loadingText.innerText = "Opening the story ...";
             setTimeout(() => {
                 loadingText.style.display = "none";
                 storyBox.style.display = "flex";
@@ -239,7 +287,7 @@ function typeStory() {
 setInterval(() => {
     const heart = document.createElement("div");
     heart.className = "heart";
-    heart.textContent = "💖";
+    heart.textContent = "💜";
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
     document.body.appendChild(heart);
@@ -247,7 +295,12 @@ setInterval(() => {
 }, 700);
 
 /* 🌸 FLOWER RAIN */
-const flowers = ["🌸","🌺","🌼","💐"];
+const flowers = [
+    "💗",             // Pink tulip and pink heart-vibe
+    "💮",                   // White flower
+    "🏵️",                   // Orange/Yellow rosette
+    "🌸", "🌺", "🌼" // Original flowers
+];
 setInterval(() => {
     const flower = document.createElement("div");
     flower.className = "flower";
@@ -259,7 +312,7 @@ setInterval(() => {
 }, 500);
 
 /* 🌸 BLOOMING FLOWERS AT BOTTOM WITH WIND */
-const bloomingFlowers = ["🌸","🌺","🌼","💐"];
+const bloomingFlowers = ["🌸","🌺","🌼","💐","🌻", "🌹", "🥀", "🌷"];
 setInterval(() => {
     const flowerCount = Math.floor(Math.random() * 3) + 3; 
     for (let i = 0; i < flowerCount; i++) {
@@ -308,7 +361,7 @@ function attachButtonLogic() {
     };
 
     document.getElementById("yesBtn").onclick = () => {
-        showPopupMessage("☕ Coffee date settled");
+        showPopupMessage("☕ Coffee day settled");
 
         // Automatically hide the popup after 6 seconds
         setTimeout(() => {
@@ -340,10 +393,16 @@ const blackoutText = document.getElementById("blackoutText");
 exitBtn.onclick = () => {
     blackout.style.display = "flex";
 
-    // After 5 seconds show prank text
-    setTimeout(() => {
-        blackoutText.innerText = "😈 It's a prank!";
-    }, 5000);
+   // After 5 seconds show Bible verse + date question
+setTimeout(() => {
+    blackoutText.innerHTML = `
+        “Plans succeed with good counsel.”
+        <br>— Proverbs 20:18
+        <br><br>
+        Would you be open to a simple coffee out with me?
+    `;
+}, 5000);
+
 
     // Exit page after prank
     setTimeout(() => {
